@@ -1,0 +1,14 @@
+import styled from "styled-components";
+
+export const Title = styled.h1`
+  background: DARKSLATEGRAY;
+  font-family: "germania one", display;
+  font-weight: 500;
+  text-transform: capitalize;
+  text-align: center;
+  font-size: 24px;
+  padding: 16px;
+  border-bottom: 1px solid darkgoldenrod;
+  margin-block-start: 0;
+  margin-block-end: 0;
+`;
