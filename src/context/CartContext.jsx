@@ -12,23 +12,27 @@ export function CartProvider({ children }) {
     // REACH SOME API
   }, []);
 
+  // update price
+  useEffect(() => {}, []);
+
   const isInCart = searchId => cart.findIndex(({ id }) => id === searchId) >= 0;
 
-  const removeBook = idToRemove => {
-    if (isInCart(idToRemove)) {
-      // DO SOMETHING
-    }
-    // setCart(cart.filter(id => id !== idToRemove));
-  };
+  const isInCartWithStock = searchId =>
+    cart.findIndex(({ id, quantity }) => searchId === id && quantity > 1) >= 0;
+
+  const changeQuantity = (searchId, value) =>
+    cart.map(e =>
+      e.id === searchId ? { ...e, quantity: e.quantity + value } : e,
+    );
 
   const addBook = idToAdd => {
-    if (isInCart(idToAdd))
-      setCart(
-        cart.map(e =>
-          e.id === idToAdd ? { ...e, quantity: e.quantity + 1 } : e,
-        ),
-      );
+    if (isInCart(idToAdd)) setCart(changeQuantity(idToAdd, 1));
     else setCart([...cart, { id: idToAdd, quantity: 1 }]);
+  };
+
+  const removeBook = idToRemove => {
+    if (isInCartWithStock(idToRemove)) setCart(changeQuantity(idToRemove, -1));
+    else setCart(cart.filter(({ id }) => id !== idToRemove));
   };
 
   return (

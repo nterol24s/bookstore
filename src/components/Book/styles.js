@@ -1,9 +1,10 @@
 import styled from "styled-components";
 
+import { BaseButton, Flex } from "../Common/styles";
+
 export const Container = styled.div`
-  padding-bottom: 16px;
   border-bottom: 1px solid SLATEGRAY;
-  padding: 8px 16px;
+  padding: 16px 8px;
   width: 96%;
   margin: auto;
 `;
@@ -33,12 +34,11 @@ export const Author = styled.div`
 export const Description = styled.p`
   font-weight: 400;
   line-height: 1.35;
-  ${"" /* text-transform: uppercase; */}
-`;
-
-export const Tags = styled.div`
-  display: flex;
-  justify-content: flex-end;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: ${props => (props.open ? "128px" : "64px")};
+  width: 80%;
+  transition: all 0.2s ease-in;
 `;
 
 export const Tag = styled.p`
@@ -72,13 +72,35 @@ export const Title = styled.h2`
   ${"" /* color: white; */}
 `;
 
-export const QButton = styled.button`
+export const SmallButton = styled(BaseButton)`
+  font-family: "zilla slab", serif;
+  color: darkgoldenrod;
+  background: transparent;
+  font-size: 14px;
+`;
+
+export const QButton = styled(BaseButton)`
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  border: none;
+  display: inline-flex;
   margin: 2px;
-  font-weight: 700;
   color: ${({ minus }) => (minus ? "GAINSBORO" : "DARKSLATEGRAY")};
+  font-size: 14px;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
   background: ${({ minus }) => (minus ? "SLATEGRAY" : "GAINSBORO")};
+`;
+
+export const ConfirmationContainer = styled.div`
+  padding: 8px;
+  border-radius: 5px;
+  background: DARKSLATEGRAY;
+  color: gainsboro;
+`;
+
+export const OrderContainer = styled(Flex)`
+  padding: 8px;
+  align-items: center;
 `;

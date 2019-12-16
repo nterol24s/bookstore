@@ -6,4 +6,5 @@ export const Layout = styled.div`
   color: GAINSBORO;
   font-family: "lato", sans-serif;
   padding-bottom: 64px;
+  min-height: 100vh;
 `;
