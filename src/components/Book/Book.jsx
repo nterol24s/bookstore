@@ -1,8 +1,8 @@
-import React, { Suspense, useContext, useState } from "react";
+import React, { Suspense, useContext, useState, useEffect } from "react";
 
 import CartContext from "../../context/CartContext";
 import {
-  Container,
+  BookContainer,
   Title,
   Description,
   Author,
@@ -20,20 +20,28 @@ import useSelfUntoggle from "../../hooks/useSelfUntoggle";
 
 const Confirmation = React.lazy(() => import("./Confirmation"));
 
-function Book({ book: { title, id, author, description, price, tag } }) {
+function Book({ book: { title, id, author, description, price, tag }, cart }) {
   const [longDescription, setLongDescription] = useState(false);
+
+  const [bookInCart, setInCart] = useState(false);
 
   const { removeBook, addBook } = useContext(CartContext);
 
-  const [confirmation, handleConfirmation] = useSelfUntoggle(3000);
+  const [confirmation, handleConfirmation] = useSelfUntoggle(1200);
+
+  useEffect(() => {
+    setInCart(cart.findIndex(el => el.id === id) > -1);
+  }, [cart, id]);
 
   const handleAddBook = () => {
     addBook(id);
     handleConfirmation();
   };
 
+  const formatPrice = price.replace(".", ",");
+
   return (
-    <Container>
+    <BookContainer>
       <Title>
         <Moji moji="📕" type="close book" />
         {title}
@@ -50,12 +58,14 @@ function Book({ book: { title, id, author, description, price, tag } }) {
       </div>
 
       <Info>
-        <Price>{price}</Price>
+        <Price>{formatPrice}</Price>
       </Info>
       <OrderContainer>
-        <QButton minus onClick={() => removeBook(id)}>
-          -
-        </QButton>
+        {bookInCart && (
+          <QButton minus onClick={() => removeBook(id)}>
+            -
+          </QButton>
+        )}
         <QButton onClick={handleAddBook}>+</QButton>
         <div
           style={{
@@ -72,7 +82,7 @@ function Book({ book: { title, id, author, description, price, tag } }) {
           </Suspense>
         </div>
       </OrderContainer>
-    </Container>
+    </BookContainer>
   );
 }
 

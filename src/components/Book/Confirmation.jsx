@@ -15,7 +15,11 @@ function Confirmation({ confirmation, children }) {
       item && (
         <animated.div
           key={key}
-          style={{ border: "1px solid red", position: "absolute", ...props }}
+          style={{
+            border: "1px solid slategray",
+            position: "absolute",
+            ...props,
+          }}
         >
           <ConfirmationContainer>{children}</ConfirmationContainer>
         </animated.div>

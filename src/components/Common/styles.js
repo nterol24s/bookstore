@@ -26,3 +26,9 @@ export const BaseButton = styled.button`
     outline: none;
   }
 `;
+
+export const Container = styled.div`
+  padding: 16px 8px;
+  width: 96%;
+  margin: auto;
+`;

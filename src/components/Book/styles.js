@@ -1,12 +1,9 @@
 import styled from "styled-components";
 
-import { BaseButton, Flex } from "../Common/styles";
+import { BaseButton, Flex, Container } from "../Common/styles";
 
-export const Container = styled.div`
+export const BookContainer = styled(Container)`
   border-bottom: 1px solid SLATEGRAY;
-  padding: 16px 8px;
-  width: 96%;
-  margin: auto;
 `;
 
 export const Info = styled.div`

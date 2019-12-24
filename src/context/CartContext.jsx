@@ -9,11 +9,12 @@ export function CartProvider({ children }) {
   const [cart, setCart] = useState([]);
 
   useEffect(() => {
-    // REACH SOME API
-  }, []);
-
-  // update price
-  useEffect(() => {}, []);
+    const nPrice = cart.reduce(
+      (acc, curr) => (acc += Number(curr.price) * curr.quantity),
+      0,
+    );
+    setPrice(nPrice);
+  }, [cart]);
 
   const isInCart = searchId => cart.findIndex(({ id }) => id === searchId) >= 0;
 
@@ -27,7 +28,10 @@ export function CartProvider({ children }) {
 
   const addBook = idToAdd => {
     if (isInCart(idToAdd)) setCart(changeQuantity(idToAdd, 1));
-    else setCart([...cart, { id: idToAdd, quantity: 1 }]);
+    else {
+      const [{ title, price }] = books.filter(book => book.id === idToAdd);
+      setCart([...cart, { id: idToAdd, quantity: 1, title, price }]);
+    }
   };
 
   const removeBook = idToRemove => {
