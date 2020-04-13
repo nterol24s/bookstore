@@ -1,18 +1,10 @@
-import React, {
-  createContext,
-  useState,
-  useEffect,
-  useReducer,
-  useContext,
-} from "react";
+import React, { createContext, useReducer, useContext } from "react";
 
 import { addBookType, removeBookType } from "./actionTypes";
 import { isInCart, isInCartWithStock, changeQuantity } from "./utils";
 import books from "../books";
 
 const CartContext = createContext();
-const PriceContext = createContext();
-const SetPriceContext = createContext();
 const DispatchCartContext = createContext();
 
 function cartReducer(state, { type, payload }) {
@@ -39,25 +31,12 @@ function cartReducer(state, { type, payload }) {
 }
 
 export function CartProvider({ children }) {
-  const [price, setPrice] = useState(0);
   const [cart, dispatchCart] = useReducer(cartReducer, []);
-
-  useEffect(() => {
-    const nPrice = cart.reduce(
-      (acc, curr) => (acc += Number(curr.price) * curr.quantity),
-      0,
-    );
-    setPrice(nPrice);
-  }, [cart]);
 
   return (
     <CartContext.Provider value={cart}>
       <DispatchCartContext.Provider value={dispatchCart}>
-        <PriceContext.Provider value={price}>
-          <SetPriceContext.Provider value={setPrice}>
-            {children}
-          </SetPriceContext.Provider>
-        </PriceContext.Provider>
+        {children}
       </DispatchCartContext.Provider>
     </CartContext.Provider>
   );
@@ -73,18 +52,6 @@ export function useCart() {
 export function useDispatchCart() {
   const dispatchCart = useContext(DispatchCartContext);
   return dispatchCart;
-}
-
-export function usePrice() {
-  const price = useContext(PriceContext);
-  console.log("💸", price);
-  if (price === undefined) throw new Error("No Price found");
-  return price;
-}
-
-export function useSetPrice() {
-  const setPrice = useContext(SetPriceContext);
-  return setPrice;
 }
 
 export default CartContext;
