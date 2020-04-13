@@ -1,0 +1,33 @@
+.layout {
+  border: 5px solid GAINSBORO;
+  background: DARKSLATEGRAY;
+  color: GAINSBORO;
+  font-family: "lato", sans-serif;
+  padding-bottom: 64px;
+  min-height: 100vh;
+}
+
+.row {
+  display: flex;
+}
+
+.resRow {
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+.baseButton {
+  padding: 0;
+  border: none;
+  font-weight: 700;
+  &:focus {
+    outline: none;
+  }
+}
+
+.container {
+  padding: 16px 8px;
+  width: 96%;
+  margin: auto;
+}

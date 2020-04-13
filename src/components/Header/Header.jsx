@@ -1,13 +1,13 @@
 import React from "react";
 
-import { Title } from "./styles";
+import styles from './styles.module.scss';
 import { Moji } from "../Common/common";
 
 const Header = () => (
-  <Title>
+  <div className={styles.title}>
     <Moji type="livre" moji="📖" />
     La bouquinerie
-  </Title>
+  </div>
 );
 
 export default Header;

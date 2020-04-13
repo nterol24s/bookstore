@@ -8,7 +8,7 @@ function Joke() {
     <div onClick={() => handleDadJokes()}>
       {!err && !dadJoke && "Hey ! Wanna hear a joke ?"}
       {dadJoke && !err && dadJoke}
-      {err && "Too bad wa ain't none"}
+      {err && "Too bad there ain't none"}
     </div>
   );
 }

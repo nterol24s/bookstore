@@ -1,6 +1,4 @@
-import styled from "styled-components";
-
-export const Title = styled.h1`
+.title {
   background: DARKSLATEGRAY;
   font-family: "germania one", display;
   font-weight: 500;
@@ -11,4 +9,4 @@ export const Title = styled.h1`
   border-bottom: 1px solid darkgoldenrod;
   margin-block-start: 0;
   margin-block-end: 0;
-`;
+}

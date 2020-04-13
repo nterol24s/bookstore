@@ -1,13 +1,15 @@
 import React, { useState, useRef, Suspense } from "react";
 
-import { Badge } from "./styles";
+import styles from './cart.module.scss';
 import { Moji } from "../Common/common";
+import { usePrice } from "../../context/CartContext";
 
 const Joke = React.lazy(() => import("../Joke"));
 
-function Cart({ price }) {
+function Cart() {
   const [joke, setJoke] = useState(false);
   const jokeTimer = useRef(null);
+  const price = usePrice();
 
   const handleMouseEnter = () => {
     if (!jokeTimer.current) {
@@ -22,7 +24,7 @@ function Cart({ price }) {
   };
 
   return (
-    <Badge onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+    <div className={styles.badge} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       {!joke ? (
         <a href="#checkout">
           <Moji moji="📚" type="pile of book" />
@@ -33,7 +35,7 @@ function Cart({ price }) {
           <Joke />
         </Suspense>
       )}
-    </Badge>
+    </div>
   );
 }
 

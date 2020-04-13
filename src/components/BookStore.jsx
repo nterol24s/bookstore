@@ -1,27 +1,28 @@
-import React, { useContext, Suspense } from "react";
+import React, { Suspense } from "react";
 
-import { Layout } from "./basicStyle";
+import common from "./Common/common.module.scss";
 import Header from "./Header";
 import Book from "./Book";
-import CartContext from "../context/CartContext";
+import { usePrice } from "../context/CartContext";
 import Cart from "./Cart";
+import books from "../books";
 
 const Receipt = React.lazy(() => import("./Receipt"));
 
 function BookStore() {
-  const { books, cart, price } = useContext(CartContext);
+  const price = usePrice();
 
   return (
-    <Layout>
+    <div className={common.layout}>
       <Header />
       {books.map(book => (
-        <Book key={book.id} book={book} cart={cart} />
+        <Book key={book.id} book={book} />
       ))}
-      <Cart price={price} />
+      <Cart />
       <Suspense fallback={<div>...loading receipt</div>}>
-        {price > 0 && <Receipt cart={cart} price={price} />}
+        {price > 0 && <Receipt price={price} />}
       </Suspense>
-    </Layout>
+    </div>
   );
 }
 

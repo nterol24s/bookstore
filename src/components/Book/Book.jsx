@@ -1,88 +1,66 @@
-import React, { Suspense, useContext, useState, useEffect } from "react";
+import React, { useState } from "react";
+import styled from "styled-components";
 
-import CartContext from "../../context/CartContext";
-import {
-  BookContainer,
-  Title,
-  Description,
-  Author,
-  Tag,
-  Info,
-  Price,
-  QButton,
-  SmallButton,
-  OrderContainer,
-} from "./styles";
+import styles from "./book.module.scss";
+import common from "../Common/common.module.scss";
 import { Moji } from "../Common/common";
-import { Flex } from "../Common/styles";
+import c from "classnames";
 
-import useSelfUntoggle from "../../hooks/useSelfUntoggle";
+import BookOrder from "./BookOrder/BookOrder";
 
-const Confirmation = React.lazy(() => import("./Confirmation"));
+export const DescriptionContainer = styled.p`
+  font-weight: 400;
+  line-height: 1.35;
+  max-width: 60%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: ${props => (props.open ? "128px" : "64px")};
+  width: 80%;
+  transition: all 0.2s ease-in;
+`;
 
-function Book({ book: { title, id, author, description, price, tag }, cart }) {
+const Description = ({ author, description }) => {
   const [longDescription, setLongDescription] = useState(false);
+  return (
+    <main>
+      <p className={styles.author}>{author}</p>
+      <DescriptionContainer open={longDescription}>
+        {description}
+      </DescriptionContainer>
+      <button
+        className={c(common.baseButton, styles.smallButton)}
+        onClick={() => setLongDescription(!longDescription)}
+      >
+        Afficher {longDescription ? "moins" : "plus"}
+      </button>
+    </main>
+  );
+};
 
-  const [bookInCart, setInCart] = useState(false);
+const Header = ({ title, tag }) => {
+  return (
+    <header>
+      <h2 className={styles.title}>
+        <Moji moji="📕" type="close book" />
+        {title}
+      </h2>
+      <p className={styles.tag}>{tag}</p>
+    </header>
+  );
+};
 
-  const { removeBook, addBook } = useContext(CartContext);
-
-  const [confirmation, handleConfirmation] = useSelfUntoggle(1200);
-
-  useEffect(() => {
-    setInCart(cart.findIndex(el => el.id === id) > -1);
-  }, [cart, id]);
-
-  const handleAddBook = () => {
-    addBook(id);
-    handleConfirmation();
-  };
-
+function Book({ book: { title, id, author, description, price, tag } }) {
   const formatPrice = price.replace(".", ",");
 
   return (
-    <BookContainer>
-      <Title>
-        <Moji moji="📕" type="close book" />
-        {title}
-      </Title>
-      <Flex>
-        <Tag>{tag}</Tag>
-      </Flex>
-      <div>
-        <Author>{author}</Author>
-        <Description open={longDescription}>{description}</Description>
-        <SmallButton onClick={() => setLongDescription(!longDescription)}>
-          Afficher {longDescription ? "moins" : "plus"}
-        </SmallButton>
+    <article className={`${common.container} ${styles.container}`}>
+      <Header tag={tag} title={title} />
+      <Description author={author} description={description} />
+      <div className={styles.info}>
+        <p className={styles.price}>{formatPrice} €</p>
       </div>
-
-      <Info>
-        <Price>{formatPrice}</Price>
-      </Info>
-      <OrderContainer>
-        {bookInCart && (
-          <QButton minus onClick={() => removeBook(id)}>
-            -
-          </QButton>
-        )}
-        <QButton onClick={handleAddBook}>+</QButton>
-        <div
-          style={{
-            position: "relative",
-            marginLeft: "12px",
-            height: "42px",
-            width: "100%",
-          }}
-        >
-          <Suspense fallback={<div>Loading...</div>}>
-            <Confirmation confirmation={confirmation}>
-              Le livre a bien été ajouté panier !
-            </Confirmation>
-          </Suspense>
-        </div>
-      </OrderContainer>
-    </BookContainer>
+      <BookOrder id={id} />
+    </article>
   );
 }
 

@@ -12,12 +12,6 @@ export const Row = styled(Flex)`
   flex-direction: row;
 `;
 
-export const RespRow = styled(Row)`
-  @media (max-width: 768px) {
-    flex-direction: column;
-  }
-`;
-
 export const BaseButton = styled.button`
   padding: 0;
   border: none;
@@ -25,10 +19,4 @@ export const BaseButton = styled.button`
   &:focus {
     outline: none;
   }
-`;
-
-export const Container = styled.div`
-  padding: 16px 8px;
-  width: 96%;
-  margin: auto;
 `;
