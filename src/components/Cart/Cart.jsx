@@ -1,6 +1,6 @@
 import React, { useState, useRef, Suspense } from "react";
 
-import { Badge } from "./styles";
+import styles from "./cart.module.scss";
 import { Moji } from "../Common/common";
 
 const Joke = React.lazy(() => import("../Joke"));
@@ -22,7 +22,11 @@ function Cart({ price }) {
   };
 
   return (
-    <Badge onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+    <div
+      className={styles.badge}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       {!joke ? (
         <a href="#checkout">
           <Moji moji="📚" type="pile of book" />
@@ -33,7 +37,7 @@ function Cart({ price }) {
           <Joke />
         </Suspense>
       )}
-    </Badge>
+    </div>
   );
 }
 

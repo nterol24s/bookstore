@@ -1,7 +1,7 @@
 import React from "react";
 import { animated, useTransition } from "react-spring";
 
-import { ConfirmationContainer } from "./styles";
+import styles from "./book_order.module.scss";
 
 function Confirmation({ confirmation, children }) {
   const transition = useTransition(confirmation, confirmation => confirmation, {
@@ -21,7 +21,7 @@ function Confirmation({ confirmation, children }) {
             ...props,
           }}
         >
-          <ConfirmationContainer>{children}</ConfirmationContainer>
+          <div className={styles.confirmationContainer}>{children}</div>
         </animated.div>
       ),
   );
